@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "14710582040",
+    "project_id": "nocard-8151",
+    "storage_bucket": "nocard-8151.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:14710582040:android:80aac04e2a2608587d0c6d",
+        "android_client_info": {
+          "package_name": "com.lalitham.nocard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "14710582040-eo71gl7tl5drukaqjk10nbv6ugq96pku.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lalitham.nocard",
+            "certificate_hash": "8cec206e7471126eca1aa4ee4691814d388f7697"
+          }
+        },
+        {
+          "client_id": "14710582040-hem93kq0ed2qu7f3amqs47v8eut2arj3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lalitham.nocard",
+            "certificate_hash": "5924ee50d86dfcb79571cd0a64f91b048d5123df"
+          }
+        },
+        {
+          "client_id": "14710582040-50glmqef5apqhlhj0cht47t6or4a2el2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWCF5ibEONEg0XL-dRjoDUUXMg4qRxnSg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "14710582040-50glmqef5apqhlhj0cht47t6or4a2el2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "14710582040-l6sle6qkimul7nqpgq42i6jihae8luj0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.nearbyNocard"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
