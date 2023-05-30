@@ -1,5 +1,7 @@
 import 'package:nearby_nocard/app_exports.dart';
 
+import '../models/user.dart';
+
 class FirestoreService {
   static final FirestoreService _singleton = FirestoreService._internal();
 
@@ -71,5 +73,12 @@ class FirestoreService {
     CollectionReference usersCollection =
         FirebaseFirestore.instance.collection('users');
     return usersCollection.snapshots();
+  }
+
+  //fuction to get the user data from the firestore from collection users and document id is the email of the user
+  Future<NoCardUsers> getUserData(String email) async {
+    DocumentSnapshot documentSnapshot =
+        await FirebaseFirestore.instance.collection('users').doc(email).get();
+    return NoCardUsers.fromJson(documentSnapshot.data()! as Map<String, dynamic>);
   }
 }

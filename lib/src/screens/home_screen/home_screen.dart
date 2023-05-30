@@ -1,16 +1,44 @@
-import 'package:easyqrimage/easyqrimage.dart';
+import 'dart:developer';
+
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+import 'package:easyqrimage/easyqrimage.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:nearby_nocard/app_exports.dart';
 import 'package:nearby_connections/nearby_connections.dart';
 
 class HomeScreen extends GetView<HomeController> {
-  const HomeScreen({super.key});
+  const HomeScreen({Key? key}) : super(key: key);
+
+  // Future<void> scanBarcodeNormal(BuildContext context) async {
+  //   String barcodeScanRes;
+  //   try {
+  //     barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+  //       '#ff6666',
+  //       'Cancel',
+  //       true,
+  //       ScanMode.BARCODE,
+  //     );
+  //     print(barcodeScanRes);
+  //   } on PlatformException {
+  //     barcodeScanRes = 'Failed to get platform version.';
+  //   }
+  //
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     SnackBar(content: Text(barcodeScanRes)),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Obx(() {
       return Scaffold(
-        appBar: buildAppBar(),
+        appBar: buildAppBar(context),
         body: !controller.userInFirestore.value
             ? TabBarView(
                 controller: controller.tabController,
@@ -33,8 +61,38 @@ class HomeScreen extends GetView<HomeController> {
     await GoogleSignIn().signOut();
     await FirebaseAuth.instance.signOut();
   }
+  //
+  // Future<void> startBarcodeScanStream(BuildContext context) async {
+  //   FlutterBarcodeScanner.getBarcodeStreamReceiver(
+  //     '#ff6666',
+  //     'Cancel',
+  //     true,
+  //     ScanMode.BARCODE,
+  //   )?.listen((barcode) => print(barcode));
+  // }
+  //
+  // Future<void> scanQR(BuildContext context) async {
+  //   String barcodeScanRes;
+  //   try {
+  //     barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+  //       '#ff6666',
+  //       'Cancel',
+  //       true,
+  //       ScanMode.QR,
+  //     );
+  //     print(barcodeScanRes);
+  //   } on PlatformException {
+  //     barcodeScanRes = 'Failed to get platform version.';
+  //   }
+  //
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     SnackBar(content: Text(barcodeScanRes)),
+  //   );
+  // }
 
-  AppBar buildAppBar() {
+
+
+  AppBar buildAppBar(BuildContext context) {
     return AppBar(
       title: const Text("NoCard"),
       leading: IconButton(
@@ -62,12 +120,37 @@ class HomeScreen extends GetView<HomeController> {
         },
       ),
       actions: [
+        // IconButton(
+        //   icon: const Icon(Icons.enhance_photo_translate_rounded),
+        //   onPressed: () {
+        //     // scanBarcodeNormal(context);
+        //     Navigator.of(context).push(
+        //         MaterialPageRoute(
+        //         builder: (context) => const BarcodeScannerWithController(),
+        //   },
+        // ),
         IconButton(
           icon: const Icon(Icons.enhance_photo_translate_rounded),
-          onPressed: () {
-            Get.offNamed(AppRoutes.formScreen);
+          onPressed: () async {
+            String barcodeScanRes;
+            try {
+              barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+                '#ff6666',
+                'Cancel',
+                true,
+                ScanMode.BARCODE,
+              );
+              print(barcodeScanRes);
+              // Process the scanned barcode here
+            } on PlatformException {
+              barcodeScanRes = 'Failed to get platform version.';
+            }
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(barcodeScanRes)),
+            );
           },
         ),
+
         const SizedBox(
           width: 14,
         ),
@@ -398,3 +481,5 @@ class ListViewBox extends StatelessWidget {
     );
   }
 }
+
+// class for the qr code scanner

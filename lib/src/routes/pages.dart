@@ -5,7 +5,7 @@ class AppPages {
     GetPage(
         name: AppRoutes.homeScreen,
         page: () {
-          return const HomeScreen();
+          return  HomeScreen();
         },
         binding: HomeBinding()),
     GetPage(

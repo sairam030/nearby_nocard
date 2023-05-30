@@ -1,76 +1,70 @@
-import 'package:nearby_nocard/app_exports.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class User {
-  final String name;
-  final String address;
-  final String mail;
-  final String number1;
-  final String number2;
-  final String role;
-  final List<DocumentReference> contacts;
+class NoCardUsers {
+  String name;
+  String email;
+  int number;
+  GeoPoint location;
+  String address;
+  String uid;
+  String imageUrl;
+  List<DocumentReference> contacts;
 
-  User({
-    required this.name,
-    required this.address,
-    required this.mail,
-    required this.number1,
-    required this.number2,
-    required this.role,
-    required this.contacts,
+  NoCardUsers({
+    this.name = '',
+    required this.email,
+    this.number = 0,
+    this.location= const GeoPoint(0, 0),
+    this.address = '',
+    required this.uid,
+    this.imageUrl = 'https://www.clipartmax.com/png/middle/296-2969961_no-image-user-profile-icon.png',
+    this.contacts = const [],
   });
 
-  factory User.fromJson(Map<String, dynamic> json) {
-    List<DocumentReference> contacts = [];
-    if (json['contacts'] != null) {
-      for (var item in json['contacts']) {
-        contacts.add(item);
-      }
-    }
-    return User(
-      name: json['name'],
-      address: json['address'],
-      mail: json['mail'],
-      number1: json['number1'],
-      number2: json['number2'],
-      role: json['role'],
-      contacts: contacts,
+  factory NoCardUsers.fromJson(Map<String, dynamic> json) {
+    return NoCardUsers(
+      name: json['name'] ?? '',
+      email: json['email'],
+      number: json['number'] ?? 0,
+      location: json['location'],
+      address: json['address'] ?? '',
+      uid: json['uid'],
+      imageUrl: json['imageUrl'] ?? 'https://www.clipartmax.com/png/middle/296-2969961_no-image-user-profile-icon.png',
+      contacts: List<DocumentReference>.from(json['contacts']?.map((c) => FirebaseFirestore.instance.doc(c))),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['name'] = name;
-    data['address'] = address;
-    data['mail'] = mail;
-    data['number1'] = number1;
-    data['number2'] = number2;
-    data['role'] = role;
-    data['contacts'] = contacts;
-    return data;
+    return {
+      'name': name,
+      'email': email,
+      'number': number,
+      'location': location,
+      'address': address,
+      'uid': uid,
+      'imageUrl': imageUrl,
+      'contacts': contacts.map((c) => c.path).toList(),
+    };
   }
 
-  @override
-  String toString() {
-    return 'User{name: $name, address: $address, mail: $mail, number1: $number1, number2: $number2, role: $role, contacts: $contacts}';
-  }
-
-  User copyWith({
+  factory NoCardUsers.updateFirestoreDocument({
+    required NoCardUsers user,
     String? name,
+    int? number,
+    GeoPoint? location= const GeoPoint(0, 0),
     String? address,
-    String? mail,
-    String? number1,
-    String? number2,
-    String? role,
+    String? imageUrl,
     List<DocumentReference>? contacts,
   }) {
-    return User(
-      name: name ?? this.name,
-      address: address ?? this.address,
-      mail: mail ?? this.mail,
-      number1: number1 ?? this.number1,
-      number2: number2 ?? this.number2,
-      role: role ?? this.role,
-      contacts: contacts ?? this.contacts,
+    return NoCardUsers(
+      name: name ?? user.name,
+      email: user.email,
+      number: number ?? user.number,
+      location: location ?? user.location,
+      address: address ?? user.address,
+      uid: user.uid,
+      imageUrl: imageUrl ?? user.imageUrl,
+      contacts: contacts ?? user.contacts,
     );
   }
 }
